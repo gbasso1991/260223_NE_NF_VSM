@@ -199,8 +199,7 @@ axins.grid()
 
 plt.savefig('NE_NF_comparativa_VSM.png',dpi=300)
 plt.show()
-
-# #%% Curvas Anhistéricas y fit para todas las muestras NE  
+#%% Curvas Anhistéricas y fit para todas las muestras NE  
 
 # H_anhist, m_anhist = mt.anhysteretic(H_NE, m_NE)
 # fit = fit3.session(H_anhist, m_anhist, fname='NE', divbymass=True,mass=masa_NE)
@@ -287,9 +286,8 @@ for nombre, H, m ,mass in [('NE', H_NE, m_NE, masa_NE)]:
     H_fit_arrays[nombre] = fit.X
     m_fit_arrays[nombre] = fit.Y
 
-
-
-for nombre, H, m ,mass in [('NF', H_NF, m_NF, masa_NF)]:
+#%
+for nombre, H, m ,mass in [('NF', H_NF, m_NF_conc, masa_NF_conc)]:
     H_anhist, m_anhist = mt.anhysteretic(H, m)
     fit = fit3.session(H_anhist, m_anhist, fname=nombre, divbymass=True,mass=mass)
     fit.fix('sig0')
@@ -324,10 +322,11 @@ for nombre, H, m ,mass in [('NF', H_NF, m_NF, masa_NF)]:
 #%% Ploteo los fits
 fig, ax = plt.subplots( figsize=(8, 6), constrained_layout=True)
 
-ax.plot(resultados_fit['NE']['H_fit'], resultados_fit['NE']['m_fit_sin_lineal'],
-        '.-', label=f'NE fit\nC = {conc_NE} mg/mL\nm = {masa_NE*1000:.3f} mg\nMs = {resultados_fit["NE"]["Ms"]:.1uS} emu/g\n')
+ax.plot(H_NE, m_NE_norm,'o-', c='C0',alpha=0.4,label=f'Datos originales\n')
 
-ax.plot(H_NE, m_NE_norm,'o-', c='C0',alpha=0.4,label=f'Datos originales')
+ax.plot(resultados_fit['NE']['H_fit'], resultados_fit['NE']['m_fit'],
+        '.-', c='C1',label=f'NE fit\nC = {conc_NE} mg/mL\nm = {masa_NE*1000:.3f} mg\nMs = {resultados_fit["NE"]["Ms"]:.1uS} emu/g\n')
+
 
 ax.set_ylabel('m (emu/g)')
 ax.set_xlabel('H (G)')
@@ -344,8 +343,8 @@ axins = inset_axes(    ax,
     borderpad=0) 
 
 # Volver a graficar las curvas en el inset
-axins.plot(resultados_fit['NE']['H_fit'], resultados_fit['NE']['m_fit_sin_lineal'],'.-')
 axins.plot(H_NE, m_NE_norm,'o-', c='C0',alpha=0.4)
+axins.plot(resultados_fit['NE']['H_fit'], resultados_fit['NE']['m_fit'],'.-',c='C1')
 
 # Definir región de zoom (AJUSTAR ESTOS VALORES)
 axins.set_xlim(-20, 20)   # rango eje X
@@ -357,10 +356,10 @@ plt.show()
 
 fig2, ax = plt.subplots( figsize=(8, 6), constrained_layout=True)
 
-ax.plot(resultados_fit['NF']['H_fit'], resultados_fit['NF']['m_fit_sin_lineal'],
-        '.-', label=f'NF fit\nC = {conc_NF} mg/mL\nm = {masa_NF*1000:.3f} mg\nMs = {resultados_fit["NF"]["Ms"]:.1uS} emu/g\n')
+ax.plot(H_NF, m_NF_conc_norm,'o-', c='C0',alpha=0.4,label=f'Datos originales\n')
+ax.plot(resultados_fit['NF']['H_fit'], resultados_fit['NF']['m_fit'],
+        '.-', c='C1',label=f'NF fit\nC = {conc_NF} mg/mL\nm = {masa_NF*1000:.3f} mg\nMs = {resultados_fit["NF"]["Ms"]:.1uS} emu/g\n')
 
-ax.plot(H_NF, m_NF_norm,'o-', c='C0',alpha=0.4,label=f'Datos originales')
 
 ax.set_ylabel('m (emu/g)')
 ax.set_xlabel('H (G)')
@@ -377,8 +376,8 @@ axins = inset_axes(    ax,
     borderpad=0) 
 
 # Volver a graficar las curvas en el inset
-axins.plot(resultados_fit['NF']['H_fit'], resultados_fit['NF']['m_fit_sin_lineal'],'.-')
-axins.plot(H_NF, m_NF_norm,'o-', c='C1',alpha=0.4)
+axins.plot(H_NF, m_NF_norm,'o-', c='C0',alpha=0.4)
+axins.plot(resultados_fit['NF']['H_fit'], resultados_fit['NF']['m_fit'],'.-',c='C1')
 
 # Definir región de zoom (AJUSTAR ESTOS VALORES)
 axins.set_xlim(-20, 20)   # rango eje X
@@ -387,34 +386,27 @@ axins.grid()
 
 plt.savefig('NF_fit.png',dpi=300)
 plt.show()
-#%%
+#%% Comparo fits NE y NF
 fig, ax = plt.subplots( figsize=(8, 6), constrained_layout=True)
 
 ax.plot(resultados_fit['NE']['H_fit'], resultados_fit['NE']['m_fit_sin_lineal'],
         '.-', label=f'NE\nC = {conc_NE} mg/mL\nm = {masa_NE*1000:.3f} mg\nMs = {resultados_fit["NE"]["Ms"]:.1uS} emu/g\n')
 
-
-
 ax.plot(resultados_fit['NF']['H_fit'], resultados_fit['NF']['m_fit_sin_lineal'],
         '.-', label=f'NF\nC = {conc_NF} mg/mL\nm = {masa_NF*1000:.3f} mg\nMs = {resultados_fit["NF"]["Ms"]:.1uS} emu/g\n')
-
 
 ax.set_ylabel('m (emu/g)')
 ax.set_xlabel('H (G)')
 ax.legend(ncol=1)
 ax.grid()
-ax.set_title('NE@citrato - NF@citrato concentrada')
+ax.set_title('NE@citrato & NF@citrato concentrada')
 
-axins = inset_axes(    ax,
-    width="40%",
-    height="40%",
-    loc='lower right',
-    bbox_to_anchor=(-0.01, 0.08, 0.98, 1), 
-    bbox_transform=ax.transAxes,
-    borderpad=0) 
+axins = inset_axes(ax,width="40%",height="40%",
+    loc='lower right',bbox_to_anchor=(-0.01, 0.08, 0.98, 1), 
+    bbox_transform=ax.transAxes,borderpad=0) 
 
-axins.plot(H_NE, m_NE_norm,'.-')
-axins.plot(H_NF_conc, m_NF_conc_norm,'.-')
+axins.plot(resultados_fit['NE']['H_fit'], resultados_fit['NE']['m_fit_sin_lineal'],'.-')
+axins.plot(resultados_fit['NF']['H_fit'], resultados_fit['NF']['m_fit_sin_lineal'],'.-')
 
 axins.set_xlim(-20, 20)   # rango eje X
 axins.set_ylim(-8, 8)   # rango eje Y
