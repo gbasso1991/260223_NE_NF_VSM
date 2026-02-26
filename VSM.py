@@ -325,7 +325,7 @@ fig, ax = plt.subplots( figsize=(8, 6), constrained_layout=True)
 ax.plot(H_NE, m_NE_norm,'o-', c='C0',alpha=0.4,label=f'Datos originales\n')
 
 ax.plot(resultados_fit['NE']['H_fit'], resultados_fit['NE']['m_fit'],
-        '.-', c='C1',label=f'NE fit\nC = {conc_NE} mg/mL\nm = {masa_NE*1000:.3f} mg\nMs = {resultados_fit["NE"]["Ms"]:.1uS} emu/g\n')
+        '.-', c='C1',label=f'NE fit\nC = {conc_NE} mg/mL\nm = {masa_NE*1000:.3f} mg\nMs = {resultados_fit["NE"]["Ms"]:.1uS} emu/g\n$<\mu_\mu$>= {resultados_fit["NE"]["fit"].derived_parameters()["<mu>_mu"]:.1uS} $\mu_B$')
 
 
 ax.set_ylabel('m (emu/g)')
@@ -353,12 +353,12 @@ axins.grid()
 
 plt.savefig('NE_fit.png',dpi=300)
 plt.show()
-
+#%%
 fig2, ax = plt.subplots( figsize=(8, 6), constrained_layout=True)
 
 ax.plot(H_NF, m_NF_conc_norm,'o-', c='C0',alpha=0.4,label=f'Datos originales\n')
 ax.plot(resultados_fit['NF']['H_fit'], resultados_fit['NF']['m_fit'],
-        '.-', c='C1',label=f'NF fit\nC = {conc_NF} mg/mL\nm = {masa_NF*1000:.3f} mg\nMs = {resultados_fit["NF"]["Ms"]:.1uS} emu/g\n')
+        '.-', c='C1',label=f'NF fit\nC = {conc_NF} mg/mL\nm = {masa_NF*1000:.3f} mg\nMs = {resultados_fit["NF"]["Ms"]:.1uS} emu/g\n$<\mu_\mu$>= {resultados_fit["NF"]["fit"].derived_parameters()["<mu>_mu"]:.1uS} $\mu_B$')
 
 
 ax.set_ylabel('m (emu/g)')
@@ -390,10 +390,10 @@ plt.show()
 fig, ax = plt.subplots( figsize=(8, 6), constrained_layout=True)
 
 ax.plot(resultados_fit['NE']['H_fit'], resultados_fit['NE']['m_fit_sin_lineal'],
-        '.-', label=f'NE\nC = {conc_NE} mg/mL\nm = {masa_NE*1000:.3f} mg\nMs = {resultados_fit["NE"]["Ms"]:.1uS} emu/g\n')
+        '.-', label=f'NE\nC = {conc_NE} mg/mL\nm = {masa_NE*1000:.3f} mg\nMs = {resultados_fit["NE"]["Ms"]:.1uS} emu/g\n$<\mu_\mu$>= {resultados_fit["NE"]["fit"].derived_parameters()["<mu>_mu"]:.1uS} $\mu_B$\n')
 
 ax.plot(resultados_fit['NF']['H_fit'], resultados_fit['NF']['m_fit_sin_lineal'],
-        '.-', label=f'NF\nC = {conc_NF} mg/mL\nm = {masa_NF*1000:.3f} mg\nMs = {resultados_fit["NF"]["Ms"]:.1uS} emu/g\n')
+        '.-', label=f'NF\nC = {conc_NF} mg/mL\nm = {masa_NF*1000:.3f} mg\nMs = {resultados_fit["NF"]["Ms"]:.1uS} emu/g\n$<\mu_\mu$>= {resultados_fit["NF"]["fit"].derived_parameters()["<mu>_mu"]:.1uS} $\mu_B$')
 
 ax.set_ylabel('m (emu/g)')
 ax.set_xlabel('H (G)')
